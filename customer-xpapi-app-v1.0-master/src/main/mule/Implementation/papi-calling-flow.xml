@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="papi-calling-flowSub_Flow" doc:id="cd36b6ca-31b8-4e19-83c2-c6292b77ac2a" >
+		<logger level="INFO" doc:name="Logger" doc:id="c53cdbdc-61e3-4bf7-bce4-5ef29ae00138" message="start"/>
+		<http:request method="GET" doc:name="Request" doc:id="f0de846b-fd86-42dc-acfc-68e0c0332f04" config-ref="HTTP_Request_configuration" path="${papi.path.customers}">
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"lastModifiedDateTime" : attributes.queryParams.lastModifiedDateTime,
+	"status" : attributes.queryParams.status
+}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="c3f56c8d-baf2-45b1-a037-e3e0f3ba38f9" message="end"/>
+	</sub-flow>
+</mule>

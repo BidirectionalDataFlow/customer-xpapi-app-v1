@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
+    <flow name="api-main">
+        <http:listener config-ref="api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="api-config" />
+        <error-handler ref="global-errorError_Handler">
+            
+        </error-handler>
+    </flow>
+    <flow name="api-console">
+        <http:listener config-ref="api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="api-config" />
+        <error-handler ref="global-errorError_Handler">
+            
+        </error-handler>
+    </flow>
+    <flow name="patch:\customers:application\json:api-config">
+        <logger level="INFO" doc:name="Request Logger" doc:id="7a27b71e-11af-4a58-8034-2594d3c436b9" message='Start FLOW #[flow.name] "Calling data-syncFlow" -- #[now()]' />
+		
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  msg: "successful operation",
+  code: 200,
+  success: true,
+  eventId: "dbfhjsdbhfbdo8ryt876t75ty",
+  payload: {
+    success: true
+  }
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <logger level="INFO" doc:name="End Logger" doc:id="006a1368-1124-4b8a-97e2-9ee84d5e7c94" message='Start FLOW #[flow.name] "Calling data-syncFlow" -- #[now()]' />
+		
+		<error-handler ref="global-errorError_Handler" />
+    </flow>
+    <flow name="patch:\customers\status:application\json:api-config">
+        <logger level="INFO" doc:name="Start Logger" doc:id="74fba146-72dc-43fd-91f2-e175279a6d37" message='Start FLOW #[flow.name] "Calling data-syncFlow" -- #[now()]' />
+		
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  msg: "successful operation",
+  code: 200,
+  success: true,
+  eventId: "dbfhjsdbhfbdo8ryt876t75ty",
+  payload: {
+    success: true
+  }
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <logger level="INFO" doc:name="End Logger" doc:id="3199cc52-46da-43f4-978b-5081e391138e" message='Start FLOW #[flow.name] "Calling data-syncFlow" -- #[now()]' />
+		
+		<error-handler ref="global-errorError_Handler" />
+    </flow>
+</mule>
