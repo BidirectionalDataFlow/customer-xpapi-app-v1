@@ -1,1 +1,0 @@
-# customer-xpapi-app-v1.0
