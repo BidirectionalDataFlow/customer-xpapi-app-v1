@@ -28,8 +28,5 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="8ff50fcb-2e58-439a-acf4-45f31f64c45e" >
 		<db:my-sql-connection host="${database.host}" port="${database.port}" user="${database.user}" password="${secure::database.password}" database="${database.dbschema}" />
 	</db:config>
-	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="e005d2eb-3c13-47b7-866b-0e24f8ae30f7" >
-		<http:request-connection host="${xpapi.host}" port="${xpapi.port}" />
-	</http:request-config>
     
 </mule>
